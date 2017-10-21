@@ -251,29 +251,22 @@ def getPts(edge, tri1, tri2):
 
     #If left turn start with that triangle in answer else start with other
     if(crossProduct(bottomLeft, ptNotOnEdge1, topRight) > 0):
-        pts.append(ptNotOnEdge1)
-        pts.append(topRight)
-        pts.append(ptNotOnEdge2)
+        pts.extend([ptNotOnEdge1, topRight, ptNotOnEdge2])
+        # pts.append(topRight)
+        # pts.append(ptNotOnEdge2)
     else:
-        pts.append(ptNotOnEdge2)
-        pts.append(topRight)
-        pts.append(ptNotOnEdge1)
+        pts.extend([ptNotOnEdge2, topRight, ptNotOnEdge1])
+        # pts.append(topRight)
+        # pts.append(ptNotOnEdge1)
 
     return(pts)
 
-def updateDict(d, t1, t2):
-    etris = d.values()
-    edges = d.keys()
-    edgeDict = {}
-    for e in edges:
-        edgeDict[e] = []
-        for ets in etris:
-            for t in ets:
-                if(t != t1 and t != t2):
-                    if isIncident(e, t) and not t in edgeDict[e]:
-                        edgeDict[e].append(t)
-
-    return(edgeDict)
+def removeRepeatTris(l):
+    uniqueTs = []
+    for t in l:
+        if not t in uniqueTs:
+            uniqueTs.append(t)
+    return uniqueTs
 
 def getLength(pt1, pt2):
     """This function calculates the euclidean distance between two points"""
@@ -318,6 +311,20 @@ def isLegal(edge, tri1, tri2):
         return(False)
     return(True)
 
+def updateDict(d, t1, t2):
+    etris = d.values()
+    edges = d.keys()
+    edgeDict = {}
+    for e in edges:
+        edgeDict[e] = []
+        for ets in etris:
+            for t in ets:
+                if(t != t1 and t != t2):
+                    if isIncident(e, t) and not t in edgeDict[e]:
+                        edgeDict[e].append(t)
+
+    return(edgeDict)
+
 def delaunayTriangulation(dataSet):
     """This function takes in a dataset and returns a list of the edges
     of the delaunay triangulation. """
@@ -350,7 +357,7 @@ def delaunayTriangulation(dataSet):
                         edgeDict = updateDict(edgeDict, oldTri1, oldTri2)
                         i = 0
 
-    return edgeDict.keys()     
+    return edgeDict.keys()   
 
 def isIncident(edge, tri):
     """This function returns True if a given triangle has edge as one of its 
@@ -545,12 +552,10 @@ class DataTriangulationVis(Frame):
             point_ids.append(pt_id)
             dataSet.append((event.x, event.y))
             self.updatePic()
-        
-        
 
+#Initialize important objects
 dataSet = []
 line_ids = []
-poly_id = 1
 point_ids = []
 method = "None" #While method is "None", won't triangulate
 
