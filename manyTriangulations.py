@@ -35,12 +35,9 @@ def sortTriCCW(tri):
     if(crossProduct(tri[0], tri[1], tri[2]) > 0):
         #Already sorted :)
         return(tri)
-    else:
-        #Put it in the other order
-        return([tri[0], tri[2], tri[1]])
-        # returnable = [tri[0]]
-        # returnable.append(tri[2])
-        # returnable.append(tri[1])
+    #Put it in the other order
+    return([tri[0], tri[2], tri[1]])
+
 
 def visVerts(pt, hull):
     """This function returns a list with the elements being -1 or 1. Each element
