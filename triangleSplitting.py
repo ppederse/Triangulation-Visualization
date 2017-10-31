@@ -80,9 +80,11 @@ def triangleSplittingDict(dataSet):
         edges.append(new)
         new = (convH[0], convH[i-1], convH[i])
         tris.append(new)
-    #Put in the last triangle!
-    new = (convH[0], convH[i], convH[i+1])
+        #Put in the last triangle!
+    i = len(convH)-2
+    new = (convH[0], convH[i], convH[(i+1)%len(convH)])
     tris.append(new)
+
     for d in dataSet:
         if d not in convH:
             k.append(d)

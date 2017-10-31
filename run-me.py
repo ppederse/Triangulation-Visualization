@@ -17,7 +17,7 @@ class DataTriangulationVis(Frame):
 
         Frame.__init__(self,master=None)
         self.x = self.y = 0
-        self.canvas = Canvas(self,  cursor="cross",width=600,height=650)
+        self.canvas = Canvas(self,  cursor="cross",width=650,height=650)
 
         self.canvas.grid(row=0,column=0,sticky=N+S+E+W)
 
@@ -29,10 +29,13 @@ class DataTriangulationVis(Frame):
 
         ClearButton = Button ( self, command = self.clear, text = "Clear Data Points")
 
+        RandomPointsButton = Button( self, command = self.randomCall, text = "Generate 50 random points")
+
         SplittingButton.place(x=17, y=25)
         IterativeButton.place(x=17,y=50)
-        ClearButton.place(x = 17, y = 100)
+        ClearButton.place(x = 17, y = 125)
         DelaunayButton.place(x = 17, y = 75)
+        RandomPointsButton.place(x=17,y=100)
 
         MethodLabel = Label (self, text = "Current method: " + method)
         MethodLabel.place(x=17,y=6)
@@ -95,6 +98,16 @@ class DataTriangulationVis(Frame):
         method = "Iterative Triangulation"
         self.updatePic()
 
+    def randomCall(self):
+        global dataSet
+        global point_ids
+        self.clear()
+        dataSet = buildH(50)
+        for i in dataSet:
+            pt_id = self.canvas.create_oval(i[0]-2,i[1]-2, i[0]+2,i[1]+2,fill='red')
+            point_ids.append(pt_id)
+        self.updatePic()
+
     def clear(self):
         global dataSet
         global line_ids
@@ -113,9 +126,6 @@ class DataTriangulationVis(Frame):
 
     def on_button_press(self,event):
         global dataSet
-        global line_ids
-        global poly_id
-        global method
         global point_ids
         #print"({}, {})".format(event.x,event.y)
         

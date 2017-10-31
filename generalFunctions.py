@@ -1,5 +1,7 @@
 #This file contains the functions that are used by the different algorithms. 
 
+import random
+
 def tupleListToList(T):
     """This function takes in a list of tuples that represent edges and converts 
     them into a format that can be plotted in Tkinter. """
@@ -52,3 +54,10 @@ def isIncident(edge, tri):
     if edge[0] in tri and edge[1] in tri:
         return True
     return False
+
+def buildH(n):
+    """Generates a list of n random tuples with no repeating elements. """
+    H = []
+    for i in range(n):
+        H.append((random.random()*500 + 125, random.random()*500 + 125))
+    return(H)
